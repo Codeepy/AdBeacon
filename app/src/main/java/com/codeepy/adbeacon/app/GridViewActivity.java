@@ -25,6 +25,8 @@ public class GridViewActivity extends Activity {
 	private GridView gridView;
 	private int columnWidth;
 
+    private String UUID = "d4:22:3f:db:95:b1";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,11 +42,11 @@ public class GridViewActivity extends Activity {
 		InitilizeGridLayout();
 
 		// loading all image paths from SD card
-		imagePaths = utils.getFilePaths();
+		//imagePaths = utils.getFilePaths();
+        imagePaths = utils.getFileUrls(UUID);
 
 		// Gridview adapter
-		adapter = new GridViewImageAdapter(GridViewActivity.this, imagePaths,
-				columnWidth);
+		adapter = new GridViewImageAdapter(GridViewActivity.this, imagePaths, columnWidth);
 
 		// setting grid view adapter
 		gridView.setAdapter(adapter);

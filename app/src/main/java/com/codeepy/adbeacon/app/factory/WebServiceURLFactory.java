@@ -3,6 +3,7 @@ package com.codeepy.adbeacon.app.factory;
 import android.net.Uri;
 import android.util.Log;
 import com.codeepy.adbeacon.app.helper.Codeepy;
+import com.codeepy.adbeacon.app.webservice.AdWebService;
 import com.codeepy.adbeacon.app.webservice.WebService;
 import com.codeepy.adbeacon.app.webservice.YoWebService;
 
@@ -28,8 +29,12 @@ public class WebServiceURLFactory {
 
             if (yo.getYo() != null) builder.path(yo.getYo());
         }
+        else if (ws instanceof AdWebService) {
+            AdWebService ad = (AdWebService) ws;
+            builder.path(ad.getPrefix() + "/" + ad.getUUID());
+        }
 
-        Log.i(Codeepy.TAG.toString(), "Uri Build: " + builder.build().toString());
+//        Log.i(Codeepy.TAG.toString(), "Uri Build: " + builder.build().toString());
         return builder.build().toString();
     }
 }

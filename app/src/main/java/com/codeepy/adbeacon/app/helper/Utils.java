@@ -2,7 +2,9 @@ package com.codeepy.adbeacon.app.helper;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -11,10 +13,18 @@ import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 import android.widget.Toast;
+import com.codeepy.adbeacon.app.factory.JsonFactory;
+import com.codeepy.adbeacon.app.factory.WebServiceFactory;
+import com.codeepy.adbeacon.app.factory.WebServiceURLFactory;
+import com.codeepy.adbeacon.app.model.Advertisement;
+import com.codeepy.adbeacon.app.webservice.AdWebService;
+import com.codeepy.adbeacon.app.webservice.WebService;
 
 public class Utils {
 
 	private Context _context;
+
+    private WebServiceFactory webServiceFactory;
 
 	// constructor
 	public Utils(Context context) {
@@ -77,6 +87,32 @@ public class Utils {
 		return filePaths;
 	}
 
+    public ArrayList<String> getFileUrls(String UUID) {
+        String rootUrl = "http://adbeacon.herokuapp.com/media/";
+        ArrayList<String> fileUrls = new ArrayList<String>();
+
+        webServiceFactory = new WebServiceFactory();
+
+        AdWebService adws = new AdWebService();
+        adws.setUUID(UUID);
+        adws.setFormat(WebService.FORMAT_JSON);
+        String url = WebServiceURLFactory.getInstance().buildUri(adws);
+        webServiceFactory.execute(url);
+        try {
+            String json = webServiceFactory.get();
+            List<Advertisement> ads = JsonFactory.getInstance().handleAdvertisement(json);
+
+            for (Advertisement ad : ads) {
+                fileUrls.add(rootUrl + ad.getPicurl());
+            }
+        } catch (InterruptedException e) {
+            Log.e(Codeepy.TAG.toString(), e.getMessage());
+        } catch (ExecutionException e) {
+            Log.e(Codeepy.TAG.toString(), e.getMessage());
+        }
+
+        return fileUrls;
+    }
 	/*
 	 * Check supported file extensions
 	 * 

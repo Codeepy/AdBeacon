@@ -17,7 +17,9 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import com.codeepy.adbeacon.app.FullScreenViewActivity;
+import com.codeepy.adbeacon.app.R;
 import com.codeepy.adbeacon.app.helper.Codeepy;
+import com.codeepy.adbeacon.app.image.ImageLoader;
 
 public class GridViewImageAdapter extends BaseAdapter {
 
@@ -25,8 +27,7 @@ public class GridViewImageAdapter extends BaseAdapter {
 	private ArrayList<String> _filePaths = new ArrayList<String>();
 	private int imageWidth;
 
-	public GridViewImageAdapter(Activity activity, ArrayList<String> filePaths,
-			int imageWidth) {
+	public GridViewImageAdapter(Activity activity, ArrayList<String> filePaths, int imageWidth) {
 		this._activity = activity;
 		this._filePaths = filePaths;
 		this.imageWidth = imageWidth;
@@ -57,13 +58,28 @@ public class GridViewImageAdapter extends BaseAdapter {
 		}
 
 		// get screen dimensions
-		Bitmap image = decodeFile(_filePaths.get(position), imageWidth,
-				imageWidth);
+		//Bitmap image = decodeFile(_filePaths.get(position), imageWidth, imageWidth);
+
+        // Loader image - will be shown before loading image
+        int loader = R.drawable.loader;
+
+        // Image url
+        //String image_url = "http://api.androidhive.info/images/sample.jpg";
+        String image_url = _filePaths.get(position);
+
+        // ImageLoader class instance
+        ImageLoader imgLoader = new ImageLoader(_activity.getApplicationContext());
+
+        // whenever you want to load an image from url
+        // call DisplayImage function
+        // url - image url to load
+        // loader - loader image, will be displayed before getting image
+        // image - ImageView
+        imgLoader.DisplayImage(image_url, loader, imageView);
 
 		imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-		imageView.setLayoutParams(new GridView.LayoutParams(imageWidth,
-				imageWidth));
-		imageView.setImageBitmap(image);
+		imageView.setLayoutParams(new GridView.LayoutParams(imageWidth, imageWidth));
+		//imageView.setImageBitmap(image);
 
 		// image view click listener
 		imageView.setOnClickListener(new OnImageClickListener(position));

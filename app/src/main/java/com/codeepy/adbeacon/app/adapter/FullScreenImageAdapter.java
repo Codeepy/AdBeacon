@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import com.codeepy.adbeacon.app.R;
 import com.codeepy.adbeacon.app.helper.TouchImageView;
+import com.codeepy.adbeacon.app.image.ImageLoader;
 
 public class FullScreenImageAdapter extends PagerAdapter {
 
@@ -52,11 +53,27 @@ public class FullScreenImageAdapter extends PagerAdapter {
  
         imgDisplay = (TouchImageView) viewLayout.findViewById(R.id.imgDisplay);
         btnClose = (Button) viewLayout.findViewById(R.id.btnClose);
-        
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        Bitmap bitmap = BitmapFactory.decodeFile(_imagePaths.get(position), options);
-        imgDisplay.setImageBitmap(bitmap);
+
+        // Loader image - will be shown before loading image
+        int loader = R.drawable.loader;
+
+        // Image url
+        //String image_url = "http://api.androidhive.info/images/sample.jpg";
+        String image_url = _imagePaths.get(position);
+
+        // ImageLoader class instance
+        ImageLoader imgLoader = new ImageLoader(_activity.getApplicationContext());
+
+        // whenever you want to load an image from url
+        // call DisplayImage function
+        // url - image url to load
+        // loader - loader image, will be displayed before getting image
+        // image - ImageView
+        imgLoader.DisplayImage(image_url, loader, imgDisplay);
+//        BitmapFactory.Options options = new BitmapFactory.Options();
+//        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+//        Bitmap bitmap = BitmapFactory.decodeFile(_imagePaths.get(position), options);
+//        imgDisplay.setImageBitmap(bitmap);
         
         // close button click event
         btnClose.setOnClickListener(new View.OnClickListener() {			
