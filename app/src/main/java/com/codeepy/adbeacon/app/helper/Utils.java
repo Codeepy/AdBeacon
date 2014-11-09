@@ -23,8 +23,9 @@ import com.codeepy.adbeacon.app.webservice.WebService;
 public class Utils {
 
 	private Context _context;
-
     private WebServiceFactory webServiceFactory;
+
+    public static String MACAddress;
 
 	// constructor
 	public Utils(Context context) {

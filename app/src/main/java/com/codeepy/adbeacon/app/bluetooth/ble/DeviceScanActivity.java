@@ -34,9 +34,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.codeepy.adbeacon.app.GridViewActivity;
 import com.codeepy.adbeacon.app.R;
 import com.codeepy.adbeacon.app.bluetooth.BluetoothObject;
 import com.codeepy.adbeacon.app.factory.WebServicePostFactory;
+import com.codeepy.adbeacon.app.helper.Codeepy;
+import com.codeepy.adbeacon.app.helper.Utils;
 import com.codeepy.adbeacon.app.webservice.YoWebService;
 
 import java.util.ArrayList;
@@ -54,10 +57,15 @@ public class DeviceScanActivity extends ListActivity {
     // Stops scanning after 10 seconds.
     private static final long SCAN_PERIOD = 10000;
 
+    private ArrayList<String> devices = new ArrayList<String>();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        devices.add("cf:16:23:df:d4:b6");
+        devices.add("de:7d:6d:16:1f:8a");
 
         mHandler = new Handler();
 
@@ -88,10 +96,12 @@ public class DeviceScanActivity extends ListActivity {
         if (!mScanning) {
             menu.findItem(R.id.menu_stop).setVisible(false);
             menu.findItem(R.id.menu_scan).setVisible(true);
+            menu.findItem(R.id.menu_viewad).setVisible(true);
             menu.findItem(R.id.menu_refresh).setActionView(null);
         } else {
             menu.findItem(R.id.menu_stop).setVisible(true);
             menu.findItem(R.id.menu_scan).setVisible(false);
+            menu.findItem(R.id.menu_viewad).setVisible(false);
             menu.findItem(R.id.menu_refresh).setActionView(
                     R.layout.actionbar_indeterminate_progress);
         }
@@ -107,6 +117,10 @@ public class DeviceScanActivity extends ListActivity {
                 break;
             case R.id.menu_stop:
                 scanLeDevice(false);
+                break;
+            case R.id.menu_viewad:
+                Intent intent = new Intent(this, GridViewActivity.class);
+                startActivity(intent);
                 break;
         }
         return true;
@@ -181,12 +195,18 @@ public class DeviceScanActivity extends ListActivity {
         }
 
         public void addDevice(BluetoothObject device) {
+            int index = 0;
             for (int i=0; i<mLeDevices.size(); i++) {
                 if (mLeDevices.get(i).getAddress().equals(device.getAddress())) {
                     return;
                 }
+                if (mLeDevices.get(i).getEstimateDistance() <= device.getEstimateDistance())
+                    index = i+1;
             }
-            mLeDevices.add(device);
+            if (devices.contains(device.getAddress().toLowerCase())) {
+                mLeDevices.add(index, device);
+                Utils.MACAddress = mLeDevices.get(0).getAddress();
+            }
         }
 
         public BluetoothObject getDevice(int position) {

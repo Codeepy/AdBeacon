@@ -25,8 +25,6 @@ public class GridViewActivity extends Activity {
 	private GridView gridView;
 	private int columnWidth;
 
-    private String UUID = "d4:22:3f:db:95:b1";
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -43,7 +41,7 @@ public class GridViewActivity extends Activity {
 
 		// loading all image paths from SD card
 		//imagePaths = utils.getFilePaths();
-        imagePaths = utils.getFileUrls(UUID);
+        imagePaths = utils.getFileUrls(Utils.MACAddress);
 
 		// Gridview adapter
 		adapter = new GridViewImageAdapter(GridViewActivity.this, imagePaths, columnWidth);
@@ -65,9 +63,9 @@ public class GridViewActivity extends Activity {
             case R.id.menu_ble:
                 intent = new Intent(this, com.codeepy.adbeacon.app.bluetooth.ble.DeviceScanActivity.class);
                 startActivity(intent);
-            case R.id.menu_bluetooth:
-                intent = new Intent(this, com.codeepy.adbeacon.app.bluetooth.classic.DeviceScanActivity.class);
-                startActivity(intent);
+//            case R.id.menu_bluetooth:
+//                intent = new Intent(this, com.codeepy.adbeacon.app.bluetooth.classic.DeviceScanActivity.class);
+//                startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

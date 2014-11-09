@@ -15,8 +15,6 @@ public class FullScreenViewActivity extends Activity{
 	private FullScreenImageAdapter adapter;
 	private ViewPager viewPager;
 
-    private String UUID = "d4:22:3f:db:95:b1";
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -29,7 +27,7 @@ public class FullScreenViewActivity extends Activity{
 		Intent i = getIntent();
 		int position = i.getIntExtra("position", 0);
 
-        adapter = new FullScreenImageAdapter(FullScreenViewActivity.this, utils.getFileUrls(UUID));
+        adapter = new FullScreenImageAdapter(FullScreenViewActivity.this, utils.getFileUrls(Utils.MACAddress));
 
 		viewPager.setAdapter(adapter);
 

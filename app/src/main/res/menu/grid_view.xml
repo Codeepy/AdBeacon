@@ -4,10 +4,10 @@
           android:title="@string/menu_ble"
           android:orderInCategory="100"
           android:showAsAction="ifRoom" />
-    <item android:id="@+id/menu_bluetooth"
-          android:title="@string/menu_bluetooth"
-          android:orderInCategory="100"
-          android:showAsAction="ifRoom" />
+    <!--<item android:id="@+id/menu_bluetooth"-->
+          <!--android:title="@string/menu_bluetooth"-->
+          <!--android:orderInCategory="100"-->
+          <!--android:showAsAction="ifRoom" />-->
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"

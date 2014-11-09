@@ -19,7 +19,7 @@ public class BluetoothObject  {
         this.address = address;
         this.name = name;
         this.rssi = rssi;
-        this.scanRecord = scanRecord;
+        this.scanRecord = Arrays.copyOf(scanRecord, scanRecord.length);
     }
 
     public String getName() {
@@ -51,7 +51,7 @@ public class BluetoothObject  {
     }
 
     public void setScanRecord(byte[] scanRecord) {
-        this.scanRecord = scanRecord;
+        this.scanRecord = Arrays.copyOf(scanRecord, scanRecord.length);
     }
 
     public String getScanRecordString(int from, int to) {
