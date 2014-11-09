@@ -57,12 +57,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.codeepy.adbeacon.app.GridViewActivity" />
         </activity>
-        <activity
-            android:name=".BraintreePaymentActivity"
-            android:label="@string/title_activity_braintree_payment" >
-        </activity>
-
-        <activity android:name="com.braintreepayments.api.dropin.BraintreePaymentActivity" />
     </application>
 
 </manifest>
